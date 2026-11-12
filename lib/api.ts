@@ -5,6 +5,7 @@ import type {
   MetaResponse,
 } from "@/lib/types";
 import type { SecureDashboardResponse } from "@/lib/types";
+import type { ManagedDataSource } from "@/lib/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 
@@ -44,6 +45,7 @@ export const api = {
   register: (companyName: string, displayName: string, email: string, password: string) => request<AuthResponse>("/api/auth/register", { method: "POST", body: JSON.stringify({ company_name: companyName, display_name: displayName, email, password }) }),
   me: (token: string) => request<User>("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } }),
   users: (token: string) => request<TenantUser[]>("/api/admin/users", { headers: { Authorization: `Bearer ${token}` } }),
+  managedDataSource: (token: string) => request<ManagedDataSource>("/api/admin/data-source", { headers: { Authorization: `Bearer ${token}` } }),
   invite: (token: string, payload: { email: string; display_name: string; role: string; password: string }) => request<{ status: string }>("/api/admin/users", { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: JSON.stringify(payload) }),
   secureQuery: (token: string, prompt: string) =>
     request<SecureDashboardResponse>("/api/secure/query", {

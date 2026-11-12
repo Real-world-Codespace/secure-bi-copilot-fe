@@ -73,6 +73,16 @@ export type MetaResponse = {
 };
 
 export type DemoUser = { email: string; display_name: string; tenant_name: string; role_name: string };
+export type ManagedDataSource = {
+  name: string;
+  status: "connected";
+  engine: string;
+  database: string;
+  host: string;
+  tenant_binding: string;
+  credential_policy: string;
+  enabled_domains: string[];
+};
 export type SecureDashboardResponse = {
   title: string;
   message: string;

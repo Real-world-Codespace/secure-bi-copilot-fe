@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import type { Widget } from "@/lib/types";
 
-const palette = ["#f2c94c", "#63d5ca", "#7ba2ff", "#ff8c7a", "#b892ff", "#8dd87e"];
+const palette = ["#536be8", "#14b8a6", "#7c8ff5", "#f59e0b", "#a855f7", "#22c55e"];
 
 function formatValue(value: unknown, format: Widget["number_format"]) {
   const number = Number(value);
@@ -26,12 +26,12 @@ function chartOption(widget: Widget): echarts.EChartsOption {
   const common: echarts.EChartsOption = {
     color: palette,
     backgroundColor: "transparent",
-    textStyle: { color: "#aeb7c4", fontFamily: "Inter, system-ui, sans-serif" },
+    textStyle: { color: "#475569", fontFamily: "Inter, system-ui, sans-serif" },
     tooltip: {
       trigger: widget.chart_type === "pie" ? "item" : "axis",
-      backgroundColor: "#141922",
-      borderColor: "#30394a",
-      textStyle: { color: "#f5f7fb" },
+      backgroundColor: "#17213b",
+      borderColor: "#17213b",
+      textStyle: { color: "#ffffff" },
     },
     grid: { left: 46, right: 18, top: 22, bottom: 42 },
   };
@@ -40,14 +40,14 @@ function chartOption(widget: Widget): echarts.EChartsOption {
     const valueField = yFields[0];
     return {
       ...common,
-      legend: { bottom: 0, textStyle: { color: "#8d98a8", fontSize: 10 } },
+      legend: { bottom: 0, textStyle: { color: "#64748b", fontSize: 10 } },
       series: [
         {
           type: "pie",
           radius: ["42%", "68%"],
           center: ["50%", "43%"],
           label: { show: false },
-          itemStyle: { borderColor: "#151922", borderWidth: 2, borderRadius: 4 },
+          itemStyle: { borderColor: "#ffffff", borderWidth: 2, borderRadius: 4 },
           data: widget.data.map((row) => ({ name: String(row[xField]), value: Number(row[valueField]) || 0 })),
         },
       ],
@@ -67,8 +67,8 @@ function chartOption(widget: Widget): echarts.EChartsOption {
   const seriesType = widget.chart_type === "bar" ? "bar" : "line";
   return {
     ...common,
-    legend: yFields.length > 1 ? { top: 0, textStyle: { color: "#8d98a8", fontSize: 10 } } : undefined,
-    xAxis: { ...axis("category", xField), data: labels, axisLabel: { color: "#8d98a8", fontSize: 10, rotate: labels.some((label) => label.length > 12) ? 25 : 0 } },
+    legend: yFields.length > 1 ? { top: 0, textStyle: { color: "#64748b", fontSize: 10 } } : undefined,
+    xAxis: { ...axis("category", xField), data: labels, axisLabel: { color: "#64748b", fontSize: 10, rotate: labels.some((label) => label.length > 12) ? 25 : 0 } },
     yAxis: axis("value", ""),
     series: yFields.map((field, index) => ({
       name: field.replaceAll("_", " "),
@@ -88,11 +88,11 @@ function axis(type: "category" | "value", name: string) {
   return {
     type,
     name: name.replaceAll("_", " "),
-    nameTextStyle: { color: "#748092", fontSize: 10 },
-    axisLine: { lineStyle: { color: "#30394a" } },
+    nameTextStyle: { color: "#64748b", fontSize: 10 },
+    axisLine: { lineStyle: { color: "#dbe3f2" } },
     axisTick: { show: false },
-    axisLabel: { color: "#8d98a8", fontSize: 10 },
-    splitLine: { lineStyle: { color: "#283142", type: "dashed" as const } },
+    axisLabel: { color: "#64748b", fontSize: 10 },
+    splitLine: { lineStyle: { color: "#e7edf7", type: "dashed" as const } },
   };
 }
 
@@ -118,14 +118,14 @@ function EChart({ widget }: { widget: Widget }) {
 function DataTable({ widget }: { widget: Widget }) {
   const columns = Object.keys(widget.data[0] ?? {});
   return (
-    <div className="scrollbar-thin h-full overflow-auto rounded-md border border-[#283142]">
+    <div className="scrollbar-thin h-full overflow-auto rounded-lg border border-[#e3e9f5]">
       <table className="w-full border-collapse text-left text-xs">
-        <thead className="sticky top-0 bg-[#1b2230] text-[10px] uppercase text-[#8d98a8]">
+        <thead className="sticky top-0 bg-[#f6f8ff] text-[10px] uppercase text-[#64748b]">
           <tr>{columns.map((column) => <th className="px-3 py-2.5 font-semibold" key={column}>{column.replaceAll("_", " ")}</th>)}</tr>
         </thead>
         <tbody>
           {widget.data.map((row, index) => (
-            <tr className="border-t border-[#283142] text-[#d1d7e2]" key={index}>
+            <tr className="border-t border-[#eef2f8] text-[#334155]" key={index}>
               {columns.map((column) => <td className="whitespace-nowrap px-3 py-2" key={column}>{String(row[column] ?? "-")}</td>)}
             </tr>
           ))}
@@ -142,14 +142,14 @@ export function ChartWidget({ widget }: { widget: Widget }) {
   const minHeight = widget.chart_type === "kpi" ? "min-h-36" : "min-h-[360px]";
 
   return (
-    <article className={`${colSpan} ${minHeight} relative flex flex-col rounded-lg border border-[#2d3544] bg-[#151922] p-4 shadow-lg`}>
+    <article className={`${colSpan} ${minHeight} relative flex flex-col rounded-xl border border-[#dfe7f7] bg-white p-5 shadow-[0_8px_22px_rgba(64,86,150,.06)]`}>
       <header className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="truncate text-sm font-semibold text-white">{widget.title}</h3>
-          {widget.description && <p className="mt-1 truncate text-xs text-[#8d98a8]">{widget.description}</p>}
+          <h3 className="truncate text-sm font-semibold text-[#17213b]">{widget.title}</h3>
+          {widget.description && <p className="mt-1 truncate text-xs text-[#64748b]">{widget.description}</p>}
         </div>
-        <div className="flex items-center gap-1 text-[#748092]">
-          {widget.sql && <button aria-label="View SQL" className="rounded-md p-1.5 hover:bg-[#263041] hover:text-[#f2c94c]" onClick={() => setShowSql(true)} type="button"><Braces size={15} /></button>}
+        <div className="flex items-center gap-1 text-[#94a3b8]">
+          {widget.sql && <button aria-label="View SQL" className="rounded-md p-1.5 hover:bg-[#eef2ff] hover:text-[#536be8]" onClick={() => setShowSql(true)} type="button"><Braces size={15} /></button>}
           <GripHorizontal size={15} />
         </div>
       </header>
@@ -157,8 +157,8 @@ export function ChartWidget({ widget }: { widget: Widget }) {
       <div className="mt-3 min-h-0 flex-1">
         {widget.chart_type === "kpi" ? (
           <div className="flex h-full items-end justify-between gap-4">
-            <div className="min-w-0 text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-none text-white">{formatValue(scalar, widget.number_format)}</div>
-            <div className="mb-1 h-10 w-1 rounded-full bg-[#f2c94c]" />
+            <div className="min-w-0 text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-none text-[#17213b]">{formatValue(scalar, widget.number_format)}</div>
+            <div className="mb-1 h-10 w-1 rounded-full bg-[#536be8]" />
           </div>
         ) : widget.chart_type === "table" ? (
           <DataTable widget={widget} />

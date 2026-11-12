@@ -43,16 +43,16 @@ textarea:disabled {
 
 .field {
   width: 100%;
-  border: 1px solid #334052;
-  border-radius: 0.375rem;
-  background: #0f131a;
-  color: #f5f7fb;
-  padding: 0.65rem 0.75rem;
+  border: 1px solid #d7e0f0;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #17213b;
+  padding: 0.75rem 0.875rem;
   font-size: 0.875rem;
   outline: none;
 }
-.field:focus { border-color: #63d5ca; }
-.field::placeholder { color: #596272; }
+.field:focus { border-color: #7c8ff5; box-shadow: 0 0 0 4px #e8edff; }
+.field::placeholder { color: #94a3b8; }
 
 .scrollbar-thin {
   scrollbar-color: #394252 transparent;
